@@ -94,7 +94,7 @@ const AutoHeightWebView = React.memo(
 
     return React.createElement(WebView, {
       ...fullProps,
-      innerRef,
+      ref,
       onMessage: handleMessage,
       style: [
         styles.webView,
