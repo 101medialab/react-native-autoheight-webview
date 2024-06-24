@@ -106,7 +106,7 @@ const AutoHeightWebView = React.memo(
       ],
       // injectedJavaScript: script,
       onLoadProgress: ({ nativeEvent }) => {
-        if (nativeEvent.progress > 0.25 && onCustomLoadProgress) {
+        if (nativeEvent.progress > 0.5 && onCustomLoadProgress) {
           // trigger script
           onCustomLoadProgress(script);
         }
