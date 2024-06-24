@@ -1,4 +1,4 @@
-import React, {useState, useEffect, forwardRef} from 'react';
+import React, {useState, useEffect, forwardRef, useRef} from 'react';
 
 import {StyleSheet, Platform} from 'react-native';
 
@@ -22,6 +22,8 @@ const AutoHeightWebView = React.memo(
       showsHorizontalScrollIndicator: false,
       originWhitelist: ['*'],
     };
+
+    const innerRef = useRef(ref);
 
     Platform.OS === 'android' &&
       Object.assign(defaultProps, {
@@ -93,7 +95,7 @@ const AutoHeightWebView = React.memo(
 
     return React.createElement(WebView, {
       ...fullProps,
-      ref,
+      innerRef,
       onMessage: handleMessage,
       style: [
         styles.webView,
@@ -103,7 +105,16 @@ const AutoHeightWebView = React.memo(
         },
         style,
       ],
-      injectedJavaScript: script,
+      // injectedJavaScript: script,
+      onLoadProgress: ({ nativeEvent }) => {
+        if (nativeEvent.progress > 0.5 && innerRef.current) {
+          // trigger script
+          innerRef.current.injectJavaScript(script);
+        }
+        if (fullProps.onLoadProgress) {
+          fullProps.onLoadProgress({ nativeEvent })
+        }
+      },
       source: currentSource,
       scrollEnabled: currentScrollEnabled,
     });
