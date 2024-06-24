@@ -19,6 +19,7 @@ export interface SizeUpdate {
 }
 
 export interface AutoHeightWebViewProps extends WebViewProps {
+  onCustomLoadProgress?: (script: string) => void;
   onSizeUpdated?: (size: SizeUpdate) => void;
   files?: StylesFile[];
   style?: StyleProp<ViewStyle>;

@@ -1,4 +1,4 @@
-import React, {useState, useEffect, forwardRef, useRef} from 'react';
+import React, {useState, useEffect, forwardRef} from 'react';
 
 import {StyleSheet, Platform} from 'react-native';
 
@@ -23,8 +23,6 @@ const AutoHeightWebView = React.memo(
       originWhitelist: ['*'],
     };
 
-    const innerRef = useRef(ref);
-
     Platform.OS === 'android' &&
       Object.assign(defaultProps, {
         scalesPageToFit: false,
@@ -43,6 +41,7 @@ const AutoHeightWebView = React.memo(
       onSizeUpdated,
       scrollEnabledWithZoomedin,
       scrollEnabled,
+      onCustomLoadProgress,
     } = fullProps;
 
     const [size, setSize] = useState({
@@ -107,9 +106,9 @@ const AutoHeightWebView = React.memo(
       ],
       // injectedJavaScript: script,
       onLoadProgress: ({ nativeEvent }) => {
-        if (nativeEvent.progress > 0.5 && innerRef.current) {
+        if (nativeEvent.progress > 0.5 && onCustomLoadProgress) {
           // trigger script
-          ref.current.injectJavaScript(script);
+          onCustomLoadProgress(script);
         }
         if (fullProps.onLoadProgress) {
           fullProps.onLoadProgress({ nativeEvent })
@@ -123,6 +122,7 @@ const AutoHeightWebView = React.memo(
 );
 
 AutoHeightWebView.propTypes = {
+  onCustomLoadProgress: PropTypes.func,
   onSizeUpdated: PropTypes.func,
   files: PropTypes.arrayOf(
     PropTypes.shape({
