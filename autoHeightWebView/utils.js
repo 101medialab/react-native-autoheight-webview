@@ -128,15 +128,7 @@ const getBaseScript = ({
 }) =>
   `
   ;
-  var wrapper = document.getElementById("rnahw-wrapper");
-  if (!wrapper) {
-    wrapper = document.createElement('div');
-    wrapper.id = 'rnahw-wrapper';
-    while (document.body.firstChild instanceof Node) {
-      wrapper.appendChild(document.body.firstChild);
-    }
-    document.body.appendChild(wrapper);
-  }
+  var wrapper = document.body;
   ${updateSizeWithMessage('wrapper', scalesPageToFit)}
   window.addEventListener('load', updateSize);
   window.addEventListener('resize', updateSize);
