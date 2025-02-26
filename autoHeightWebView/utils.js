@@ -128,7 +128,7 @@ const getBaseScript = ({
 }) =>
   `
   ;
-  var wrapper = document.body;
+  var wrapper = document.getElementById('root') || document.body;
   ${updateSizeWithMessage('wrapper', scalesPageToFit)}
   window.addEventListener('load', updateSize);
   window.addEventListener('resize', updateSize);
